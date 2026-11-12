@@ -14,4 +14,14 @@ export const products = [
 		name: "Линейка",
 		price: 50,
 	},
+	{
+		id: 4,
+		name: "Мороженное",
+		price: 10,
+	},
+	{
+		id: 5,
+		name: "Газировка",
+		price: 129,
+	},
 ];
