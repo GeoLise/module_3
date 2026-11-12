@@ -1,15 +1,31 @@
-import { name } from "next/dist/server/ci-info";
-import { Arapey } from "next/font/google";
-import { array } from "../lib/products";
+type Weather = {
+	city: string;
+	date: string;
+	temperature: number;
+	description: string;
+};
 
-export default function Test() {
+export default async function Test() {
+	const responce = await fetch(
+		"https://first.orn1xx.ru/weather/skdjfhskdhfkshdkjfhsdf",
+	);
+
+	console.log(responce);
+
+	if (!responce.ok) {
+		return <p>Ошибка при получении данных о погоде</p>;
+	}
+
+	const data: Weather = await responce.json();
+
 	return (
 		<div className="flex flex-col gap-4 items-center">
 			<h1 className="text-6xl text-red-500">Привет</h1>
-			<div className="flex flex-row gap-10">
-				{array.map((item) => (
-					<ProductCard name={item.name} price={item.price} />
-				))}
+			<div className="bg-pink-400 rounded-full p-16 text-3xl flex flex-col gap-2">
+				<p>{data.city}</p>
+				<p>{data.date}</p>
+				<p>{data.description}</p>
+				<p>{data.temperature}</p>
 			</div>
 			<div className="bg bg-white p-10">
 				<img src={"/cat.png"} alt="че то" />
