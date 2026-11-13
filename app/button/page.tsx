@@ -1,12 +1,13 @@
 /** biome-ignore-all lint/a11y/useButtonType: <explanation> */
+/** biome-ignore-all lint/correctness/useExhaustiveDependencies: <explanation> */
 /** biome-ignore-all lint/suspicious/noDoubleEquals: <explanation> */
 /** biome-ignore-all lint/correctness/useJsxKeyInIterable: <explanation> */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { products as initialProducts } from "../lib/products";
 
-export default function ButtonPage() {
+export default async function ButtonPage() {
 	const [count, setCount] = useState(0);
 
 	const [bukvi, setBukvi] = useState("");
@@ -18,6 +19,34 @@ export default function ButtonPage() {
 	const [name, setName] = useState("");
 
 	const [price, setPrice] = useState(0);
+
+	const [dayTime, setDayTime] = useState<"day" | "night">("day");
+
+	const [city, setCity] = useState<"Moscow" | "St. Piter">("Moscow");
+
+	useEffect(() => {
+		if (dayTime == "day") {
+			console.log("Доброе утро!");
+		} else {
+			console.log("Спокойной ночи!");
+		}
+	}, [dayTime]);
+
+	useEffect(() => {
+		if (city == "Moscow") {
+			if (dayTime == "day") {
+				console.log("Доброе утро, Москва!");
+			} else {
+				console.log("Спокойной ночи, Москва!");
+			}
+		} else {
+			if (dayTime == "day") {
+				console.log("Доброе утро, Питер!");
+			} else {
+				console.log("Спокойной ночи, Питер!");
+			}
+		}
+	}, [city, dayTime]);
 
 	function handleClick() {
 		setCount(count + 1);
@@ -43,6 +72,36 @@ export default function ButtonPage() {
 
 	return (
 		<div className="w-screen h-screen flex flex-col items-center justify-center gap-4">
+			<p className="text-white">{dayTime}</p>
+			<p className="text-white">{city}</p>
+			<div className="flex flex-row gap-4 p-4 rounded-2xl bg-blue-600">
+				<button
+					onClick={() => setDayTime("day")}
+					className="text-black bg-white p-2"
+				>
+					День
+				</button>
+				<button
+					onClick={() => setDayTime("night")}
+					className="text-white bg-black p-2"
+				>
+					Ночь
+				</button>
+			</div>
+			<div className="flex flex-row gap-4 p-4 rounded-2xl bg-blue-600">
+				<button
+					onClick={() => setCity("Moscow")}
+					className="text-black bg-white p-2"
+				>
+					Москва
+				</button>
+				<button
+					onClick={() => setCity("St. Piter")}
+					className="text-white bg-black p-2"
+				>
+					Питер
+				</button>
+			</div>
 			{/* <div className="flex flex-row gap-2">
 				<button
 					onClick={() => handleClick()}
@@ -53,7 +112,7 @@ export default function ButtonPage() {
 				<p>{count}</p>
 				<p>{bukvi}</p>
 			</div> */}
-			<div className="bg-green-600 p-6 rounded-2xl">
+			{/* <div className="bg-green-600 p-6 rounded-2xl">
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
@@ -81,7 +140,7 @@ export default function ButtonPage() {
 						Отправить
 					</button>
 				</form>
-			</div>
+			</div> */}
 			<div className="flex flex-col gap-2">
 				<input
 					onChange={(e) => setBukvi(e.target.value)}
